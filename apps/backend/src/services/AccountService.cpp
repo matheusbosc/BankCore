@@ -3,6 +3,4 @@
 /// @note Licensed under GNU AGPL License
 /// @details Business rules, validation, transaction boundries. Calls the repository.
 
-int main() {
-
-}
+#include "AccountService.h"

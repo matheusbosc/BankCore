@@ -3,6 +3,4 @@
 /// @note Licensed under GNU AGPL License
 /// @details SQL queries, PostgreSQL interaction, NO BUSINESS LOGIC
 
-int main() {
-
-}
+#include "AccountRepository.h"
