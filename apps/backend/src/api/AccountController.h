@@ -12,7 +12,7 @@ namespace bankcore
 {
     namespace v1
     {
-        class Account : public drogon::HttpController<Account>
+        class account : public drogon::HttpController<account>
         {
         public:
             METHOD_LIST_BEGIN
@@ -20,7 +20,7 @@ namespace bankcore
             // METHOD_ADD(User::get, "/{2}/{1}", Get); // path is /demo/v1/User/{arg2}/{arg1}
             // METHOD_ADD(User::your_method_name, "/{1}/{2}/list", Get); // path is /demo/v1/User/{arg1}/{arg2}/list
             // ADD_METHOD_TO(User::your_method_name, "/absolute/path/{1}/{2}/list", Get); // path is /absolute/path/{arg1}/{arg2}/list
-            METHOD_ADD(Account::get_account, "/get_account/{1}", Post);              // Path: /bankcore/v1/Account/get_account/{account_number}
+            METHOD_ADD(account::get_account, "/get_account/{1}", Post);              // Path: /bankcore/v1/account/get_account/{account_number}
 
             METHOD_LIST_END
 

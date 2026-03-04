@@ -8,7 +8,7 @@
 using namespace bankcore::v1;
 
 /// @brief Gets account details from the database.
-void Account::get_account(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, int64_t account_number) {
+void account::get_account(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, int64_t account_number) {
     auto requestJson = req->getJsonObject();
 
     if (!requestJson) {
