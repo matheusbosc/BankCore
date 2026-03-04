@@ -1,0 +1,182 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "BankCore Accounts API",
+    "version": "1.0.0",
+    "description": "Phase 1: Accounts-only REST API for the BankCore banking backend."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Local development server"
+    }
+  ],
+  "paths": {
+    "/bankcore/v1/account": {
+      "post": {
+        "summary": "Create a new account",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "initialBalance": { "type": "integer", "minimum": 0 }
+                },
+                "required": ["name", "initialBalance"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Account created successfully" },
+          "400": { "description": "Invalid input" }
+        }
+      },
+      "get": {
+        "summary": "List all accounts",
+        "responses": {
+          "200": {
+            "description": "List of accounts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Account" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bankcore/v1/account/{accountId}": {
+      "get": {
+        "summary": "Get account by ID",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Account retrieved", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Account" } } } },
+          "404": { "description": "Account not found" }
+        }
+      },
+      "put": {
+        "summary": "Update account details",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Account updated" },
+          "400": { "description": "Invalid input" },
+          "404": { "description": "Account not found" }
+        }
+      },
+      "delete": {
+        "summary": "Delete an account",
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Account deleted" },
+          "404": { "description": "Account not found" }
+        }
+      }
+    },
+    "/bankcore/v1/account/{accountId}/deposit": {
+      "post": {
+        "summary": "Deposit funds",
+        "parameters": [
+          { "name": "accountId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "properties": { "amount": { "type": "integer", "minimum": 1 } }, "required": ["amount"] } } }
+        },
+        "responses": {
+          "200": { "description": "Deposit successful", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Account" } } } },
+          "400": { "description": "Invalid amount" },
+          "404": { "description": "Account not found" }
+        }
+      }
+    },
+    "/bankcore/v1/account/{accountId}/withdraw": {
+      "post": {
+        "summary": "Withdraw funds",
+        "parameters": [
+          { "name": "accountId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "properties": { "amount": { "type": "integer", "minimum": 1 } }, "required": ["amount"] } } }
+        },
+        "responses": {
+          "200": { "description": "Withdrawal successful", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Account" } } } },
+          "400": { "description": "Invalid amount or insufficient funds" },
+          "404": { "description": "Account not found" }
+        }
+      }
+    },
+    "/bankcore/v1/account/{fromId}/transfer/{toId}": {
+      "post": {
+        "summary": "Transfer funds between accounts",
+        "parameters": [
+          { "name": "fromId", "in": "path", "required": true, "schema": { "type": "string" } },
+          { "name": "toId", "in": "path", "required": true, "schema": { "type": "string" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "type": "object", "properties": { "amount": { "type": "integer", "minimum": 1 } }, "required": ["amount"] } } }
+        },
+        "responses": {
+          "200": { "description": "Transfer successful", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Account" } } } },
+          "400": { "description": "Invalid amount or insufficient funds" },
+          "404": { "description": "One or both accounts not found" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Account": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "balance": { "type": "integer" }
+        },
+        "required": ["id", "name", "balance"]
+      }
+    }
+  }
+}
