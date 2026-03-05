@@ -73,6 +73,20 @@ void account::create_account(const HttpRequestPtr &req,
         return;
     }
 
+    if (!requestJson->isMember("id") || !(*requestJson)["id"].asString().data()
+        !requestJson->isMember("user_id") || !(*requestJson)["user_id"].asString().data()
+        !requestJson->isMember("balance_cents") || !(*requestJson)["balance_cents"].asInt64().data()) {
+        // 400 Bad Request
+        Json::Value ret;
+        ret["result"]="400 bad request";
+
+        auto resp=HttpResponse::newHttpJsonResponse(ret);
+        resp->setStatusCode(k400BadRequest);
+
+        callback(resp);
+        return;
+    }
+
     std::string id = (*json)["id"].asString();
     std::string userId = (*json)["user_id"].asString();
     int64_t balanceCents = (*json)["balance_cents"].asInt64();
