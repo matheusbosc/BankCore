@@ -10,4 +10,10 @@ class Account {
     std::string id;
     std::string userId;
     int64_t balanceCents;
+public:
+    Account(std::string _id, std::string _userId, int64_t _balanceCents) {
+        id = _id;
+        userId = _userId;
+        balanceCents = _balanceCents;
+    }
 };

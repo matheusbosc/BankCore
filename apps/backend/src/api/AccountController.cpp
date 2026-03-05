@@ -4,11 +4,13 @@
 /// @details Parse JSON, Route definitions, returning responses, calling service. NO DATABASE LOGIC
 
 #include "AccountController.h"
+#include "Account.h"
+#include "AccountService.h"
 
 using namespace bankcore::v1;
 
 /// @brief Gets account details from the database.
-void account::get_account(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, int64_t account_number) {
+void askd_account(const HttpRequestPtr &req, std::function<void(const HttpResponsePtr &)> &&callback, int64_t account_number) {
     auto requestJson = req->getJsonObject();
 
     if (!requestJson) {
@@ -51,5 +53,78 @@ void account::get_account(const HttpRequestPtr &req, std::function<void(const Ht
     callback(resp);
     return;
 
+
+}
+
+
+void account::create_account(const HttpRequestPtr &req,
+                                std::function<void (const HttpResponsePtr &)> &&callback) {
+
+    auto json = req->getJsonObject();
+    if (!json) {
+
+        Json::Value ret;
+        ret["result"]="400 bad request";
+
+        auto resp=HttpResponse::newHttpJsonResponse(ret);
+        resp->setStatusCode(k400BadRequest);
+
+        callback(resp);
+        return;
+    }
+
+    std::string id = (*json)["id"].asString();
+    std::string userId = (*json)["user_id"].asString();
+    int64_t balanceCents = (*json)["balance_cents"].asInt64();
+
+    Account accountInfo = Account(id, userId, balanceCents);
+
+
+
+    // Call the services function
+
+    // return information
+
+}
+
+void account::list_accounts(const HttpRequestPtr &req,
+                    std::function<void (const HttpResponsePtr &)> &&callback) {
+
+}
+
+void account::get_account(const HttpRequestPtr &req,
+                    std::function<void (const HttpResponsePtr &)> &&callback,
+                    int64_t account_number) {
+
+}
+
+void account::update_account(const HttpRequestPtr &req,
+                    std::function<void (const HttpResponsePtr &)> &&callback,
+                    int64_t account_number) {
+
+}
+
+void account::delete_account(const HttpRequestPtr &req,
+                    std::function<void (const HttpResponsePtr &)> &&callback,
+                    int64_t account_number) {
+
+}
+
+void account::deposit(const HttpRequestPtr &req,
+                    std::function<void (const HttpResponsePtr &)> &&callback,
+                    int64_t account_number) {
+
+}
+
+void account::withdraw(const HttpRequestPtr &req,
+                    std::function<void (const HttpResponsePtr &)> &&callback,
+                    int64_t account_number) {
+
+}
+
+void account::transfer(const HttpRequestPtr &req,
+                    std::function<void (const HttpResponsePtr &)> &&callback,
+                    int64_t from_account,
+                    int64_t to_account) {
 
 }
