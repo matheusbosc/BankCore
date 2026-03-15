@@ -21,8 +21,8 @@ namespace bankcore
             // METHOD_ADD(User::your_method_name, "/{1}/{2}/list", Get); // path is /demo/v1/User/{arg1}/{arg2}/list
             // ADD_METHOD_TO(User::your_method_name, "/absolute/path/{1}/{2}/list", Get); // path is /absolute/path/{arg1}/{arg2}/list
 
-            METHOD_ADD(account::create_account, "/", Post);              // POST /bankcore/v1/account/                      Create Account
-            METHOD_ADD(account::list_accounts, "/", Get);                // Get /bankcore/v1/account/                       Get All accounts (numbers/id)
+            METHOD_ADD(account::create_account, "", Post);              // POST /bankcore/v1/account                        Create Account
+            METHOD_ADD(account::list_accounts, "", Get);                // Get /bankcore/v1/account                         Get All accounts (numbers/id)
 
             METHOD_ADD(account::get_account, "/{1}", Get);               // Get /bankcore/v1/account/{id}                   Get Account Info
             METHOD_ADD(account::update_account, "/{1}", Put);            // Put /bankcore/v1/account/{id}                   Update Account Info
@@ -49,28 +49,28 @@ namespace bankcore
 
             void get_account(const HttpRequestPtr &req,
                                 std::function<void (const HttpResponsePtr &)> &&callback,
-                                int64_t account_number);
+                                std::string account_number);
 
             void update_account(const HttpRequestPtr &req,
                                 std::function<void (const HttpResponsePtr &)> &&callback,
-                                int64_t account_number);
+                                std::string account_number);
 
             void delete_account(const HttpRequestPtr &req,
                                 std::function<void (const HttpResponsePtr &)> &&callback,
-                                int64_t account_number);
+                                std::string account_number);
 
             void deposit(const HttpRequestPtr &req,
                                 std::function<void (const HttpResponsePtr &)> &&callback,
-                                int64_t account_number);
+                                std::string account_number);
 
             void withdraw(const HttpRequestPtr &req,
                                 std::function<void (const HttpResponsePtr &)> &&callback,
-                                int64_t account_number);
+                                std::string account_number);
 
             void transfer(const HttpRequestPtr &req,
                                 std::function<void (const HttpResponsePtr &)> &&callback,
-                                int64_t from_account,
-                                int64_t to_account);
+                                std::string from_account,
+                                std::string to_account);
         };
     }
 }
